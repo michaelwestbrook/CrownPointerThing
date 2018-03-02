@@ -1,0 +1,7 @@
+## Title: CrownPointerThing
+## APIVersion: 100022
+## SavedVariables: CrownPointerThingSavedVariables
+## Description: Hello Tamriel
+
+CrownPointerThing.lua
+CrownPointerThing.xml
