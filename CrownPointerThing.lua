@@ -5,13 +5,19 @@ CrownPointerThing = {}
 -- Better to define it in a single place rather than retyping the same string.
 CrownPointerThing.name = "CrownPointerThing"
 
-local heading = -1.0
-
 -- Next we create a function that will initialize our addon
 function CrownPointerThing:Initialize()
-  self.savedVariables = ZO_SavedVars:New(string.format("%sSavedVariables", CrownPointerThing.name) , 1, nil, {})
-  EVENT_MANAGER:RegisterForEvent(CrownPointerThing.name, EVENT_PLAYER_ACTIVATED, CrownPointerThing.EVENT_PLAYER_ACTIVATED)
-  EVENT_MANAGER:RegisterForEvent(CrownPointerThing.name, EVENT_PLAYER_COMBAT_STATE, CrownPointerThing.EVENT_PLAYER_COMBAT_STATE)
+  self.savedVariables = ZO_SavedVars:New(string.format("%sSavedVariables", CrownPointerThing.name), 1, nil, {})
+  EVENT_MANAGER:RegisterForEvent(
+    CrownPointerThing.name,
+    EVENT_PLAYER_ACTIVATED,
+    CrownPointerThing.EVENT_PLAYER_ACTIVATED
+  )
+  EVENT_MANAGER:RegisterForEvent(
+    CrownPointerThing.name,
+    EVENT_PLAYER_COMBAT_STATE,
+    CrownPointerThing.EVENT_PLAYER_COMBAT_STATE
+  )
 end
 
 function CrownPointerThing.OnIndicatorMoveStop()
@@ -22,7 +28,7 @@ end
 function CrownPointerThing:RestorePosition()
   local left = self.savedVariables.left
   local top = self.savedVariables.top
- 
+
   CrownPointerThingIndicator:ClearAnchors()
   CrownPointerThingIndicator:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, left, top)
 end
@@ -33,12 +39,31 @@ function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
   CrownPointerThing:RestorePosition()
 end
 
+local heading = -1.0
 function CrownPointerThing.onUpdate()
   newHeading = GetPlayerCameraHeading()
-  if heading ~= newHeading then
-    heading = newHeading
-    CrownPointerThingIndicatorLabel:SetText(heading)
-  end
+  bar = {}
+  -- if heading ~= newHeading then
+  heading = newHeading
+  bar.X, bar.Y, bar.H = GetMapPlayerPosition("player")
+  CrownPointerThingIndicatorLabel:SetText(bar.X)
+  -- end
+  -- newHeading = GetPlayerCameraHeading()
+  -- -- entity.Zone = GetUnitZone(entity.Tag)
+  -- -- entity.Name = GetUnitName(entity.Tag)
+  -- if heading ~= newHeading then
+  --   heading = newHeading
+  --   local tagByIndex
+  --   local unitName
+  --   for xmemberid = 1, GetGroupSize(), 1 do
+  --     tagByIndex = GetGroupUnitTagByIndex(xmemberid)
+  --     unitName = GetUnitName(tagByIndex)
+  --     d(tagByIndex)
+  --     d(unitName)
+  --     d('$$$$$')
+  --   -- CrownPointerThingIndicatorLabel:SetText(foo)
+  --   end
+  -- end
 end
 
 -- Then we create an event handler function which will be called when the "addon loaded" event
