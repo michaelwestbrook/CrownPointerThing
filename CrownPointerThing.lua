@@ -45,8 +45,9 @@ function CrownPointerThing.onUpdate()
   bar = {}
   -- if heading ~= newHeading then
   heading = newHeading
-  bar.X, bar.Y, bar.H = GetMapPlayerPosition("player")
-  CrownPointerThingIndicatorLabel:SetText(bar.X)
+  leader = GetGroupLeaderUnitTag()
+  x, y, z = GetMapPlayerPosition(leader)
+  CrownPointerThingIndicatorLabel:SetText(x)     --(string.format("(%.5f, %.5f, %.5f", bar.X. bar.Y, bar.H))
   -- end
   -- newHeading = GetPlayerCameraHeading()
   -- -- entity.Zone = GetUnitZone(entity.Tag)
