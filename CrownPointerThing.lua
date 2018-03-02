@@ -7,9 +7,7 @@ CrownPointerThing.name = "CrownPointerThing"
 
 -- Next we create a function that will initialize our addon
 function CrownPointerThing:Initialize()
-  self.inCombat = IsUnitInCombat("player")
   self.savedVariables = ZO_SavedVars:New(string.format("%sSavedVariables", CrownPointerThing.name) , 1, nil, {})
-  CrownPointerThingIndicator:SetHidden(not self.inCombat)
   EVENT_MANAGER:RegisterForEvent(CrownPointerThing.name, EVENT_PLAYER_ACTIVATED, CrownPointerThing.EVENT_PLAYER_ACTIVATED)
   EVENT_MANAGER:RegisterForEvent(CrownPointerThing.name, EVENT_PLAYER_COMBAT_STATE, CrownPointerThing.EVENT_PLAYER_COMBAT_STATE)
 end
@@ -25,12 +23,16 @@ function CrownPointerThing:RestorePosition()
  
   CrownPointerThingIndicator:ClearAnchors()
   CrownPointerThingIndicator:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, left, top)
+  CrownPointerThingIndicator:SetText('hmmmm')  
 end
 
 -- Event Handlers
 function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
   d(CrownPointerThing.name)
   CrownPointerThing:RestorePosition()
+end
+
+function CrownPointerThing.onUpdate()
 end
 
 -- Then we create an event handler function which will be called when the "addon loaded" event
@@ -43,14 +45,7 @@ function CrownPointerThing.EVENT_ADD_ON_LOADED(event, addonName)
 end
 
 function CrownPointerThing.EVENT_PLAYER_COMBAT_STATE(event, inCombat)
-  -- -- The ~= operator is "not equal to" in Lua.
-  if inCombat ~= CrownPointerThing.inCombat then
-    -- The player's state has changed. Update the stored state...
-    CrownPointerThing.inCombat = inCombat
-
-    -- ...and then update the control.
-    CrownPointerThingIndicator:SetHidden(not inCombat)
-  end
+  d(inCombat)
 end
 
 -- Finally, we'll register our event handler function to be called when the proper event occurs.
