@@ -5,6 +5,8 @@ CrownPointerThing = {}
 -- Better to define it in a single place rather than retyping the same string.
 CrownPointerThing.name = "CrownPointerThing"
 
+local heading = -1.0
+
 -- Next we create a function that will initialize our addon
 function CrownPointerThing:Initialize()
   self.savedVariables = ZO_SavedVars:New(string.format("%sSavedVariables", CrownPointerThing.name) , 1, nil, {})
@@ -23,7 +25,6 @@ function CrownPointerThing:RestorePosition()
  
   CrownPointerThingIndicator:ClearAnchors()
   CrownPointerThingIndicator:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, left, top)
-  CrownPointerThingIndicator:SetText('hmmmm')  
 end
 
 -- Event Handlers
@@ -33,6 +34,11 @@ function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
 end
 
 function CrownPointerThing.onUpdate()
+  newHeading = GetPlayerCameraHeading()
+  if heading ~= newHeading then
+    heading = newHeading
+    CrownPointerThingIndicatorLabel:SetText(heading)
+  end
 end
 
 -- Then we create an event handler function which will be called when the "addon loaded" event

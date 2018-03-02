@@ -4,12 +4,11 @@
       <Dimensions x="200" y="25" />
       <Anchor point="BOTTOM" relativeTo="GuiRoot" relativePoint="CENTER" offsetY="-20" />
       <OnMoveStop>CrownPointerThing.OnIndicatorMoveStop()</OnMoveStop>
-      
+      <OnUpdate>CrownPointerThing.onUpdate()</OnUpdate>
       <Controls>
         <Label name="$(parent)Label" width="200" height="25" font="ZoFontWinH1" inheritAlpha="true" color="FF0000" wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="CENTER" text="Default Text">
           <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" />
         </Label>
-        <OnUpdate>CrownPointerThing.onUpdate()</OnUpdate>
       </Controls>
     </TopLevelControl>
   </Controls>
