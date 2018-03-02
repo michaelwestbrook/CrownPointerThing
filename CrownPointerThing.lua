@@ -39,32 +39,12 @@ function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
   CrownPointerThing:RestorePosition()
 end
 
-local heading = -1.0
 function CrownPointerThing.onUpdate()
-  newHeading = GetPlayerCameraHeading()
-  bar = {}
-  -- if heading ~= newHeading then
-  heading = newHeading
-  leader = GetGroupLeaderUnitTag()
-  x, y, z = GetMapPlayerPosition(leader)
-  CrownPointerThingIndicatorLabel:SetText(x)     --(string.format("(%.5f, %.5f, %.5f", bar.X. bar.Y, bar.H))
-  -- end
   -- newHeading = GetPlayerCameraHeading()
-  -- -- entity.Zone = GetUnitZone(entity.Tag)
-  -- -- entity.Name = GetUnitName(entity.Tag)
-  -- if heading ~= newHeading then
-  --   heading = newHeading
-  --   local tagByIndex
-  --   local unitName
-  --   for xmemberid = 1, GetGroupSize(), 1 do
-  --     tagByIndex = GetGroupUnitTagByIndex(xmemberid)
-  --     unitName = GetUnitName(tagByIndex)
-  --     d(tagByIndex)
-  --     d(unitName)
-  --     d('$$$$$')
-  --   -- CrownPointerThingIndicatorLabel:SetText(foo)
-  --   end
-  -- end
+  leader = GetGroupLeaderUnitTag()
+  Px, Py, Ph = GetMapPlayerPosition('player')
+  Tx, Ty, Th = GetMapPlayerPosition(leader)
+  CrownPointerThingIndicatorLabel:SetText(string.format( "(Tx:%.5f, Ty%.5f, Th%.5f), (Px:%.5f, Py:%.5f, Ph:%.5f)", Tx, Ty, Th, Px, Py, Ph))
 end
 
 -- Then we create an event handler function which will be called when the "addon loaded" event
