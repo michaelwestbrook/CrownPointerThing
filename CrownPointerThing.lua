@@ -47,9 +47,9 @@ function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
   CrownPointerThing.RestorePosition()
 
   Arrow = WINDOW_MANAGER:CreateControl("Arrow", CrownPointerThingIndicator, CT_TEXTURE)
-  Arrow:SetDimensions(80, 80) -- Set the size of the texture control
+  Arrow:SetDimensions(80, 80) 
   Arrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 0)
-  Arrow:SetTexture(CrownPointerThing.texture) -- Set the actual texture to use
+  Arrow:SetTexture(CrownPointerThing.texture)
   Arrow:SetAlpha(1)
 end
 
@@ -94,7 +94,6 @@ function CrownPointerThing.onUpdate()
   UpdateTexture(D, Angle, AbsoluteLinear)
 end
 
--- Then we ce'll use this to initialize our addon after all of its resources are fully loaded.
 function CrownPointerThing.EVENT_ADD_ON_LOADED(event, addonName)
   if addonName == CrownPointerThing.name then
     CrownPointerThing:Initialize()
