@@ -41,13 +41,16 @@ end
 function CrownPointerThing:RestorePosition()
   local left
   local top
-  if CrownPointerThing.savedVariables and CrownPointerThing.savedVariables.left and CrownPointerThing.savedVariables.right then
+  if
+    CrownPointerThing.savedVariables and CrownPointerThing.savedVariables.left and
+      CrownPointerThing.savedVariables.right
+   then
     left = CrownPointerThing.savedVariables.left
     top = CrownPointerThing.savedVariables.top
   else
     left = 0
     right = 0
-  end 
+  end
 
   CrownPointerThingIndicator:ClearAnchors()
   CrownPointerThingIndicator:SetAnchor(CENTER, GuiRoot, CENTER, left, top)
@@ -57,21 +60,50 @@ end
 function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
   d(CrownPointerThing.name)
   CrownPointerThing.RestorePosition()
-  LeftArrow = WINDOW_MANAGER:CreateControl("LeftArrow", CrownPointerThingIndicator, CT_TEXTURE) -- Create a texture control
+  LeftArrow = WINDOW_MANAGER:CreateControl("LeftArrow", CrownPointerThingIndicator, CT_TEXTURE)
   LeftArrow:SetDimensions(80, 80) -- Set the size of the texture control
-  LeftArrow:SetAnchor(TOPLEFT, CrownPointerThingIndicator, TOPLEFT, 0, 0) -- Set the position in relation to the topleft corner of the character screen
+  LeftArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 15) 
   LeftArrow:SetTexture("esoui/art/miscellaneous/transform_arrow.dds") -- Set the actual texture to use
+  LeftArrow:SetTextureRotation(-math.pi)
   LeftArrow:SetAlpha(1)
 
-  RightArrow = WINDOW_MANAGER:CreateControl("RightArrow", CrownPointerThingIndicator, CT_TEXTURE) -- Create a texture control
+  RightArrow = WINDOW_MANAGER:CreateControl("RightArrow", CrownPointerThingIndicator, CT_TEXTURE)
   RightArrow:SetDimensions(80, 80) -- Set the size of the texture control
-  RightArrow:SetAnchor(TOPLEFT, CrownPointerThingIndicator, TOPLEFT, 0, 0) -- Set the position in relation to the topleft corner of the character screen
+  RightArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, -15)
   RightArrow:SetTexture("esoui/art/miscellaneous/transform_arrow.dds") -- Set the actual texture to use
   RightArrow:SetAlpha(1)
   d(LeftArrow:GetColor())
 end
 
-function UpdateTexture()
+function UpdateTexture(DistanceToTarget, AngleToTarget)
+  if not LeftArrow or not RightArrow then
+    return
+  end
+  local R, G, B
+  if DistanceToTarget < .002 then
+    R = 0
+    G = 1
+    B = 0
+  elseif DistanceToTarget < .005 then
+    R = 1
+    G = 1
+    B = 0
+  elseif DistanceToTarget >= .005 then
+    R = 1
+    G = 0
+    B = 0
+  end
+
+  LeftArrow:ClearAnchors()
+  RightArrow:ClearAnchors()
+  if AngleToTarget > 0 then
+    LeftArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 0)
+    RightArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 100, 0)
+  else
+    LeftArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, -100, 0)
+    RightArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 0)
+  end
+  -- RightArrow:SetColor(RightTargetColor.R, RightTargetColor.G, RightTargetColor.B)
   -- if state.Linear > 0 then
   -- Texture:SetAnchor(RIGHT, CrownPointerThingIndicator, LEFT, 10, 0)
   -- left:SetDimensions(24)
@@ -121,6 +153,8 @@ function CrownPointerThing.onUpdate()
       AbsoluteLinear
     )
   )
+
+  UpdateTexture(D, Angle)
   -- CrownPointerThingIndicatorTopDivider:SetHidden(false)
 end
 
