@@ -1,8 +1,5 @@
--- First, we create a namespace for our addon by declaring a top-level table that will hold everything else.
 CrownPointerThing = {}
 
--- This isn't strictly necessary, but we'll use this string later when registering events.
--- Better to define it in a single place rather than retyping the same string.
 CrownPointerThing.name = "CrownPointerThing"
 
 CrownPointerThing.texture = "esoui/art/miscellaneous/transform_arrow.dds"
@@ -20,7 +17,6 @@ end
 
 local Arrow
 
--- Next we create a function that will initialize our addon
 function CrownPointerThing:Initialize()
   self.savedVariables = ZO_SavedVars:New(string.format("%sSavedVariables", CrownPointerThing.name), 1, nil, {})
   EVENT_MANAGER:RegisterForEvent(
@@ -64,10 +60,8 @@ function UpdateTexture(DistanceToTarget, AngleToTarget, AbsoluteLinear)
   local R = 1
   local G = 1 - AbsoluteLinear
   local B = 1 - math.min(AbsoluteLinear, 0.05) * 20
-  -- local AbsAlpha = 0.3 + (0.9 - 0.3) * AbsoluteLinear
   Arrow:SetTextureRotation(-AngleToTarget + math.pi / 2)
   Arrow:SetColor(R, G, B)
-  -- Arrow:SetAlpha(AbsAlpha)
 end
 
 function CrownPointerThing.onUpdate()
@@ -98,13 +92,10 @@ function CrownPointerThing.onUpdate()
   -- )
 
   UpdateTexture(D, Angle, AbsoluteLinear)
-  -- CrownPointerThingIndicatorTopDivider:SetHidden(false)
 end
 
--- Then we create an event handler function which will be called when the "addon loaded" event
--- occurs. We'll use this to initialize our addon after all of its resources are fully loaded.
+-- Then we ce'll use this to initialize our addon after all of its resources are fully loaded.
 function CrownPointerThing.EVENT_ADD_ON_LOADED(event, addonName)
-  -- The event fires each time *any* addon loads - but we only care about when our own addon loads.
   if addonName == CrownPointerThing.name then
     CrownPointerThing:Initialize()
   end
@@ -114,5 +105,4 @@ function CrownPointerThing.EVENT_PLAYER_COMBAT_STATE(event, inCombat)
   d(inCombat)
 end
 
--- Finally, we'll register our event handler function to be called when the proper event occurs.
 EVENT_MANAGER:RegisterForEvent(CrownPointerThing.name, EVENT_ADD_ON_LOADED, CrownPointerThing.EVENT_ADD_ON_LOADED)
