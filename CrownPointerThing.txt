@@ -3,5 +3,7 @@
 ## SavedVariables: CrownPointerThingSavedVariables
 ## Description: Hello Tamriel
 
+modes\elastic-reticle-arrows.lua
+
 CrownPointerThing.lua
 CrownPointerThing.xml

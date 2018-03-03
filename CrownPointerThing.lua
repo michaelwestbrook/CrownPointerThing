@@ -7,8 +7,12 @@ CrownPointerThing.name = "CrownPointerThing"
 
 -- From Exterminatus http://www.esoui.com/downloads/info329-0.1.html
 local function NormalizeAngle(c)
-  if c > math.pi then return c - 2 * math.pi end
-  if c < -math.pi then return c + 2 * math.pi end
+  if c > math.pi then
+    return c - 2 * math.pi
+  end
+  if c < -math.pi then
+    return c + 2 * math.pi
+  end
   return c
 end
 
@@ -44,6 +48,13 @@ end
 function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
   d(CrownPointerThing.name)
   CrownPointerThing:RestorePosition()
+  local MyTexture = WINDOW_MANAGER:CreateControl("LeftTexture", CrownPointerThingIndicator, CT_TEXTURE) -- Create a texture control
+  MyTexture:SetDimensions(200, 200) -- Set the size of the texture control
+  MyTexture:SetTexture("textures/elastic-reticle-arrows/left.dds")
+  MyTexture:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 50, 50)
+  MyTexture:SetHidden(false)
+  MyTexture:SetAlpha(0.9)
+  d(MyTexture)
 end
 
 function CrownPointerThing.onUpdate()
@@ -59,9 +70,12 @@ function CrownPointerThing.onUpdate()
   local Angle = NormalizeAngle(Heading - math.atan2(DX, DY))
   local Linear = Angle / math.pi
   local AbsoluteLinear = math.abs(Linear)
-  CrownPointerThingIndicatorLabel:SetText(
-    string.format("DX: %.5f, Dy: %.5f, D%.5f, Heading: %.5f, Angle: %.5f, Linear: %.5f, ALinear: %.5f", DX, DY, D, Heading, Angle, Linear, AbsoluteLinear)
-  )
+  -- MyTexture:SetAnchor(CENTER, CrownPointerThingIndicator, LEFT, 0, 0) -- Set the position in relation to the topleft corner of the character screen
+  -- MyTexture:SetTexture("art/fx/texture/dandelionfluff_512x4.dd")
+  -- CrownPointerThingIndicatorLabel:SetText(
+  --   string.format("DX: %.5f, Dy: %.5f, D%.5f, Heading: %.5f, Angle: %.5f, Linear: %.5f, ALinear: %.5f", DX, DY, D, Heading, Angle, Linear, AbsoluteLinear)
+  -- )
+  -- CrownPointerThingIndicatorTopDivider:SetHidden(false)
 end
 
 -- Then we create an event handler function which will be called when the "addon loaded" event
