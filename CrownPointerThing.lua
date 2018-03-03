@@ -62,17 +62,25 @@ function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
   CrownPointerThing.RestorePosition()
   LeftArrow = WINDOW_MANAGER:CreateControl("LeftArrow", CrownPointerThingIndicator, CT_TEXTURE)
   LeftArrow:SetDimensions(80, 80) -- Set the size of the texture control
-  LeftArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 50)
+  LeftArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 0)
   LeftArrow:SetTexture("esoui/art/miscellaneous/transform_arrow.dds") -- Set the actual texture to use
   LeftArrow:SetTextureRotation(-math.pi)
-  LeftArrow:SetAlpha(1)
+  LeftArrow:SetAlpha(0)
 
   RightArrow = WINDOW_MANAGER:CreateControl("RightArrow", CrownPointerThingIndicator, CT_TEXTURE)
   RightArrow:SetDimensions(80, 80) -- Set the size of the texture control
-  RightArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, -50)
+  RightArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 0)
   RightArrow:SetTexture("esoui/art/miscellaneous/transform_arrow.dds") -- Set the actual texture to use
-  RightArrow:SetAlpha(1)
-  d(LeftArrow:GetColor())
+  RightArrow:SetAlpha(0)
+
+  UpArrow = WINDOW_MANAGER:CreateControl("UpArrow", CrownPointerThingIndicator, CT_TEXTURE)
+  UpArrow:SetDimensions(80, 80) -- Set the size of the texture control
+  UpArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 0)
+  UpArrow:SetTexture("esoui/art/miscellaneous/transform_arrow.dds") -- Set the actual texture to use
+  UpArrow:SetAlpha(0)
+  UpArrow:SetTextureRotation(math.pi / 2)
+  UpArrow:SetColor(0, 1, 0)
+
 end
 
 function UpdateTexture(DistanceToTarget, AngleToTarget, AbsoluteLinear)
@@ -89,16 +97,19 @@ function UpdateTexture(DistanceToTarget, AngleToTarget, AbsoluteLinear)
     RightArrow:SetColor(R, G, B)
     LeftArrow:SetAlpha(-AbsAlpha)
     RightArrow:SetAlpha(AbsAlpha)
+    UpArrow:SetAlpha(0)
   elseif AngleToTarget < -0.2 then
     LeftArrow:SetColor(R, G, B)
     RightArrow:SetColor(0, 0, 0)
     LeftArrow:SetAlpha(AbsAlpha)
     RightArrow:SetAlpha(-AbsAlpha)
+    UpArrow:SetAlpha(0)
   else
     LeftArrow:SetColor(0, 1, 0)
     RightArrow:SetColor(0, 1, 0)
-    LeftArrow:SetAlpha(AbsAlpha)
-    RightArrow:SetAlpha(AbsAlpha)
+    LeftArrow:SetAlpha(0)
+    RightArrow:SetAlpha(0)
+    UpArrow:SetAlpha(1)
   end
 end
 
@@ -116,18 +127,18 @@ function CrownPointerThing.onUpdate()
   local Linear = Angle / math.pi
   local AbsoluteLinear = math.abs(Linear)
 
-  CrownPointerThingIndicatorLabel:SetText(
-    string.format(
-      "DX: %.5f, Dy: %.5f, D%.5f, Heading: %.5f, Angle: %.5f, Linear: %.5f, ALinear: %.5f",
-      DX,
-      DY,
-      D,
-      Heading,
-      Angle,
-      Linear,
-      AbsoluteLinear
-    )
-  )
+  -- CrownPointerThingIndicatorLabel:SetText(
+  --   string.format(
+  --     "DX: %.5f, Dy: %.5f, D%.5f, Heading: %.5f, Angle: %.5f, Linear: %.5f, ALinear: %.5f",
+  --     DX,
+  --     DY,
+  --     D,
+  --     Heading,
+  --     Angle,
+  --     Linear,
+  --     AbsoluteLinear
+  --   )
+  -- )
 
   UpdateTexture(D, Angle, AbsoluteLinear)
   -- CrownPointerThingIndicatorTopDivider:SetHidden(false)
