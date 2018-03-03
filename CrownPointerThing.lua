@@ -5,6 +5,13 @@ CrownPointerThing = {}
 -- Better to define it in a single place rather than retyping the same string.
 CrownPointerThing.name = "CrownPointerThing"
 
+-- From Exterminatus http://www.esoui.com/downloads/info329-0.1.html
+local function NormalizeAngle(c)
+  if c > math.pi then return c - 2 * math.pi end
+  if c < -math.pi then return c + 2 * math.pi end
+  return c
+end
+
 -- Next we create a function that will initialize our addon
 function CrownPointerThing:Initialize()
   self.savedVariables = ZO_SavedVars:New(string.format("%sSavedVariables", CrownPointerThing.name), 1, nil, {})
@@ -40,11 +47,21 @@ function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
 end
 
 function CrownPointerThing.onUpdate()
-  -- newHeading = GetPlayerCameraHeading()
   leader = GetGroupLeaderUnitTag()
-  Px, Py, Ph = GetMapPlayerPosition('player')
+  Px, Py, Ph = GetMapPlayerPosition("player")
   Tx, Ty, Th = GetMapPlayerPosition(leader)
-  CrownPointerThingIndicatorLabel:SetText(string.format( "(Tx:%.5f, Ty%.5f, Th%.5f), (Px:%.5f, Py:%.5f, Ph:%.5f)", Tx, Ty, Th, Px, Py, Ph))
+  Heading = GetPlayerCameraHeading()
+
+  DX = Px - Tx
+  DY = Py - Ty
+  D = math.sqrt((DX * DX) + (DY * DY))
+
+  Angle = NormalizeAngle(Heading - math.atan2(DX, DY))
+  Linear = Angle / math.pi
+  AbsoluteLinear = math.abs(Linear)
+  CrownPointerThingIndicatorLabel:SetText(
+    string.format("DX: %.5f, Dy: %.5f, D%.5f, Heading: %.5f, Angle: %.5f, Linear: %.5f, ALinear: %.5f", DX, DY, D, Heading, Angle, Linear, AbsoluteLinear)
+  )
 end
 
 -- Then we create an event handler function which will be called when the "addon loaded" event
