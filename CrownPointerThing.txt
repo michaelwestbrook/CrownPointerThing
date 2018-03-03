@@ -1,9 +1,7 @@
 ## Title: CrownPointerThing
 ## APIVersion: 100022
 ## SavedVariables: CrownPointerThingSavedVariables
-## Description: Hello Tamriel
-
-modes\elastic-reticle-arrows.lua
+## Description: Points to crown
 
 CrownPointerThing.lua
 CrownPointerThing.xml
