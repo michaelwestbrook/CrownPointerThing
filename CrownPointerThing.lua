@@ -96,12 +96,21 @@ function UpdateTexture(DistanceToTarget, AngleToTarget)
 
   LeftArrow:ClearAnchors()
   RightArrow:ClearAnchors()
-  if AngleToTarget > 0 then
+  if AngleToTarget > 0.01 then
     LeftArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 0)
+    LeftArrow:SetColor(1, 1, 1)
     RightArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 100, 0)
-  else
+    RightArrow:SetColor(R, G, B)
+  elseif AngleToTarget < -0.01 then
     LeftArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, -100, 0)
+    LeftArrow:SetColor(R, G, B)
     RightArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 0)
+    RightArrow:SetColor(1, 1, 1)
+  else
+    LeftArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 0)
+    LeftArrow:SetColor(R, G, B)
+    RightArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 0)
+    RightArrow:SetColor(R, G, B)
   end
   -- RightArrow:SetColor(RightTargetColor.R, RightTargetColor.G, RightTargetColor.B)
   -- if state.Linear > 0 then
