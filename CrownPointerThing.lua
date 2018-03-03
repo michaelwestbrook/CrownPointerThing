@@ -5,6 +5,8 @@ CrownPointerThing = {}
 -- Better to define it in a single place rather than retyping the same string.
 CrownPointerThing.name = "CrownPointerThing"
 
+CrownPointerThing.texture = "esoui/art/miscellaneous/transform_arrow.dds"
+
 -- From Exterminatus http://www.esoui.com/downloads/info329-0.1.html
 local function NormalizeAngle(c)
   if c > math.pi then
@@ -39,19 +41,6 @@ function CrownPointerThing.OnIndicatorMoveStop()
 end
 
 function CrownPointerThing:RestorePosition()
-  local left
-  local top
-  if
-    CrownPointerThing.savedVariables and CrownPointerThing.savedVariables.left and
-      CrownPointerThing.savedVariables.right
-   then
-    left = CrownPointerThing.savedVariables.left
-    top = CrownPointerThing.savedVariables.top
-  else
-    left = 0
-    right = 0
-  end
-
   CrownPointerThingIndicator:ClearAnchors()
   CrownPointerThingIndicator:SetAnchor(CENTER, GuiRoot, CENTER, 0, 0)
 end
@@ -64,7 +53,7 @@ function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
   Arrow = WINDOW_MANAGER:CreateControl("Arrow", CrownPointerThingIndicator, CT_TEXTURE)
   Arrow:SetDimensions(80, 80) -- Set the size of the texture control
   Arrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 0)
-  Arrow:SetTexture("esoui/art/miscellaneous/transform_arrow.dds") -- Set the actual texture to use
+  Arrow:SetTexture(CrownPointerThing.texture) -- Set the actual texture to use
   Arrow:SetAlpha(1)
 end
 
