@@ -53,9 +53,10 @@ function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
   FooTexture = WINDOW_MANAGER:CreateControl("MyAddonExampleTexture", CrownPointerThingIndicator, CT_TEXTURE) -- Create a texture control
   FooTexture:SetDimensions(150, 150) -- Set the size of the texture control
   FooTexture:SetAnchor(TOPLEFT, CrownPointerThingIndicator, TOPLEFT, 0, 0) -- Set the position in relation to the topleft corner of the character screen
-  FooTexture:SetTexture("/esoui/art/charactercreate/charactercreate_altmericon_up.dds") -- Set the actual texture to use
+  FooTexture:SetTexture("esoui/art/miscellaneous/transform_arrow.dds") -- Set the actual texture to use
+  FooTexture:SetAlpha(1)
   UpdateTexture(FooTexture)
-  d(FooTexture:GetLeft())
+  d(FooTexture:GetColor())
 end
 
 function UpdateTexture()
@@ -83,7 +84,7 @@ function UpdateTexture()
 
 
   FooTexture:ClearAnchors()
-  FooTexture:SetAnchor(TOPLEFT, CrownPointerThingIndicator, TOPLEFT, -100, -100)
+  FooTexture:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, -100, -100)
 end
 
 function CrownPointerThing.onUpdate()
