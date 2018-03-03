@@ -51,10 +51,39 @@ function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
   d(CrownPointerThing.name)
 
   FooTexture = WINDOW_MANAGER:CreateControl("MyAddonExampleTexture", CrownPointerThingIndicator, CT_TEXTURE) -- Create a texture control
-  FooTexture:SetDimensions(80, 80) -- Set the size of the texture control
+  FooTexture:SetDimensions(150, 150) -- Set the size of the texture control
   FooTexture:SetAnchor(TOPLEFT, CrownPointerThingIndicator, TOPLEFT, 0, 0) -- Set the position in relation to the topleft corner of the character screen
   FooTexture:SetTexture("/esoui/art/charactercreate/charactercreate_altmericon_up.dds") -- Set the actual texture to use
+  UpdateTexture(FooTexture)
   d(FooTexture:GetLeft())
+end
+
+function UpdateTexture()
+  -- if state.Linear > 0 then
+  -- Texture:SetAnchor(RIGHT, CrownPointerThingIndicator, LEFT, 10, 0)
+  -- left:SetDimensions(24)
+  -- left:SetColor(state.Color)
+  -- left:SetAlpha(state.Settings.MinAlpha)
+
+  --   right:SetAnchor(LEFT, RIGHT, state.Distance, 0)
+  --   right:SetDimensions(state.Size)
+  --   right:SetColor(state.Color)
+  --   right:SetAlpha(state.Alpha)
+  -- else
+  --   left:SetAnchor(RIGHT, LEFT, -state.Distance, 0)
+  --   left:SetDimensions(state.Size)
+  --   left:SetColor(state.Color)
+  --   left:SetAlpha(state.Alpha)
+
+  --   right:SetAnchor(LEFT, RIGHT, state.Settings.MinDistance, 0)
+  --   right:SetDimensions(state.Settings.MinSize)
+  --   right:SetColor(state.Color)
+  --   right:SetAlpha(state.Settings.MinAlpha)
+  -- end
+
+
+  FooTexture:ClearAnchors()
+  FooTexture:SetAnchor(TOPLEFT, CrownPointerThingIndicator, TOPLEFT, -100, -100)
 end
 
 function CrownPointerThing.onUpdate()
