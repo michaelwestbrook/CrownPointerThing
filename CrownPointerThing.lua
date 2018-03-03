@@ -62,14 +62,14 @@ function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
   CrownPointerThing.RestorePosition()
   LeftArrow = WINDOW_MANAGER:CreateControl("LeftArrow", CrownPointerThingIndicator, CT_TEXTURE)
   LeftArrow:SetDimensions(80, 80) -- Set the size of the texture control
-  LeftArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 15)
+  LeftArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 50)
   LeftArrow:SetTexture("esoui/art/miscellaneous/transform_arrow.dds") -- Set the actual texture to use
   LeftArrow:SetTextureRotation(-math.pi)
   LeftArrow:SetAlpha(1)
 
   RightArrow = WINDOW_MANAGER:CreateControl("RightArrow", CrownPointerThingIndicator, CT_TEXTURE)
   RightArrow:SetDimensions(80, 80) -- Set the size of the texture control
-  RightArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, -15)
+  RightArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, -50)
   RightArrow:SetTexture("esoui/art/miscellaneous/transform_arrow.dds") -- Set the actual texture to use
   RightArrow:SetAlpha(1)
   d(LeftArrow:GetColor())
@@ -82,47 +82,24 @@ function UpdateTexture(DistanceToTarget, AngleToTarget, AbsoluteLinear)
   local R = 1
   local G = 1 - AbsoluteLinear
   local B = 1 - math.min(AbsoluteLinear, 0.05) * 20
+  local AbsAlpha = 0.3 + (0.9 - 0.3) * AbsoluteLinear
 
-  LeftArrow:ClearAnchors()
-  RightArrow:ClearAnchors()
-  if AngleToTarget > 0.01 then
-    LeftArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 0)
-    LeftArrow:SetColor(1, 1, 1)
-    RightArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 100, 0)
+  if AngleToTarget > 0.2 then
+    LeftArrow:SetColor(0, 0, 0)
     RightArrow:SetColor(R, G, B)
-  elseif AngleToTarget < -0.01 then
-    LeftArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, -100, 0)
+    LeftArrow:SetAlpha(-AbsAlpha)
+    RightArrow:SetAlpha(AbsAlpha)
+  elseif AngleToTarget < -0.2 then
     LeftArrow:SetColor(R, G, B)
-    RightArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 0)
-    RightArrow:SetColor(1, 1, 1)
+    RightArrow:SetColor(0, 0, 0)
+    LeftArrow:SetAlpha(AbsAlpha)
+    RightArrow:SetAlpha(-AbsAlpha)
   else
-    LeftArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 0)
-    LeftArrow:SetColor(R, G, B)
-    RightArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 0)
-    RightArrow:SetColor(R, G, B)
+    LeftArrow:SetColor(0, 1, 0)
+    RightArrow:SetColor(0, 1, 0)
+    LeftArrow:SetAlpha(AbsAlpha)
+    RightArrow:SetAlpha(AbsAlpha)
   end
-  -- RightArrow:SetColor(RightTargetColor.R, RightTargetColor.G, RightTargetColor.B)
-  -- if state.Linear > 0 then
-  -- Texture:SetAnchor(RIGHT, CrownPointerThingIndicator, LEFT, 10, 0)
-  -- left:SetDimensions(24)
-  -- left:SetColor(state.Color)
-  -- left:SetAlpha(state.Settings.MinAlpha)
-  --   right:SetAnchor(LEFT, RIGHT, state.Distance, 0)
-  --   right:SetDimensions(state.Size)
-  --   right:SetColor(state.Color)
-  --   right:SetAlpha(state.Alpha)
-  -- else
-  --   left:SetAnchor(RIGHT, LEFT, -state.Distance, 0)
-  --   left:SetDimensions(state.Size)
-  --   left:SetColor(state.Color)
-  --   left:SetAlpha(state.Alpha)
-  --   right:SetAnchor(LEFT, RIGHT, state.Settings.MinDistance, 0)
-  --   right:SetDimensions(state.Settings.MinSize)
-  --   right:SetColor(state.Color)
-  --   right:SetAlpha(state.Settings.MinAlpha)
-  -- end
-  -- FooTexture:ClearAnchors()
-  -- FooTexture:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, -100, -100)
 end
 
 function CrownPointerThing.onUpdate()
