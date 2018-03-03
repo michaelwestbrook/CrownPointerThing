@@ -5,6 +5,8 @@ CrownPointerThing = {}
 -- Better to define it in a single place rather than retyping the same string.
 CrownPointerThing.name = "CrownPointerThing"
 
+CrownPointerThing.texture = "esoui/art/miscellaneous/transform_arrow.dds"
+
 -- From Exterminatus http://www.esoui.com/downloads/info329-0.1.html
 local function NormalizeAngle(c)
   if c > math.pi then
@@ -16,7 +18,7 @@ local function NormalizeAngle(c)
   return c
 end
 
-local LeftArrow, RightArrow
+local Arrow
 
 -- Next we create a function that will initialize our addon
 function CrownPointerThing:Initialize()
@@ -39,78 +41,33 @@ function CrownPointerThing.OnIndicatorMoveStop()
 end
 
 function CrownPointerThing:RestorePosition()
-  local left
-  local top
-  if
-    CrownPointerThing.savedVariables and CrownPointerThing.savedVariables.left and
-      CrownPointerThing.savedVariables.right
-   then
-    left = CrownPointerThing.savedVariables.left
-    top = CrownPointerThing.savedVariables.top
-  else
-    left = 0
-    right = 0
-  end
-
   CrownPointerThingIndicator:ClearAnchors()
-  CrownPointerThingIndicator:SetAnchor(CENTER, GuiRoot, CENTER, left, top)
+  CrownPointerThingIndicator:SetAnchor(CENTER, GuiRoot, CENTER, 0, 0)
 end
 
 -- Event Handlers
 function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
   d(CrownPointerThing.name)
   CrownPointerThing.RestorePosition()
-  LeftArrow = WINDOW_MANAGER:CreateControl("LeftArrow", CrownPointerThingIndicator, CT_TEXTURE)
-  LeftArrow:SetDimensions(80, 80) -- Set the size of the texture control
-  LeftArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 0)
-  LeftArrow:SetTexture("esoui/art/miscellaneous/transform_arrow.dds") -- Set the actual texture to use
-  LeftArrow:SetTextureRotation(-math.pi)
-  LeftArrow:SetAlpha(0)
 
-  RightArrow = WINDOW_MANAGER:CreateControl("RightArrow", CrownPointerThingIndicator, CT_TEXTURE)
-  RightArrow:SetDimensions(80, 80) -- Set the size of the texture control
-  RightArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 0)
-  RightArrow:SetTexture("esoui/art/miscellaneous/transform_arrow.dds") -- Set the actual texture to use
-  RightArrow:SetAlpha(0)
-
-  UpArrow = WINDOW_MANAGER:CreateControl("UpArrow", CrownPointerThingIndicator, CT_TEXTURE)
-  UpArrow:SetDimensions(80, 80) -- Set the size of the texture control
-  UpArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 0)
-  UpArrow:SetTexture("esoui/art/miscellaneous/transform_arrow.dds") -- Set the actual texture to use
-  UpArrow:SetAlpha(0)
-  UpArrow:SetTextureRotation(math.pi / 2)
-  UpArrow:SetColor(0, 1, 0)
-
+  Arrow = WINDOW_MANAGER:CreateControl("Arrow", CrownPointerThingIndicator, CT_TEXTURE)
+  Arrow:SetDimensions(80, 80) -- Set the size of the texture control
+  Arrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 0)
+  Arrow:SetTexture(CrownPointerThing.texture) -- Set the actual texture to use
+  Arrow:SetAlpha(1)
 end
 
 function UpdateTexture(DistanceToTarget, AngleToTarget, AbsoluteLinear)
-  if not LeftArrow or not RightArrow then
+  if not Arrow then
     return
   end
   local R = 1
   local G = 1 - AbsoluteLinear
   local B = 1 - math.min(AbsoluteLinear, 0.05) * 20
-  local AbsAlpha = 0.3 + (0.9 - 0.3) * AbsoluteLinear
-
-  if AngleToTarget > 0.2 then
-    LeftArrow:SetColor(0, 0, 0)
-    RightArrow:SetColor(R, G, B)
-    LeftArrow:SetAlpha(-AbsAlpha)
-    RightArrow:SetAlpha(AbsAlpha)
-    UpArrow:SetAlpha(0)
-  elseif AngleToTarget < -0.2 then
-    LeftArrow:SetColor(R, G, B)
-    RightArrow:SetColor(0, 0, 0)
-    LeftArrow:SetAlpha(AbsAlpha)
-    RightArrow:SetAlpha(-AbsAlpha)
-    UpArrow:SetAlpha(0)
-  else
-    LeftArrow:SetColor(0, 1, 0)
-    RightArrow:SetColor(0, 1, 0)
-    LeftArrow:SetAlpha(0)
-    RightArrow:SetAlpha(0)
-    UpArrow:SetAlpha(1)
-  end
+  -- local AbsAlpha = 0.3 + (0.9 - 0.3) * AbsoluteLinear
+  Arrow:SetTextureRotation(-AngleToTarget + math.pi / 2)
+  Arrow:SetColor(R, G, B)
+  -- Arrow:SetAlpha(AbsAlpha)
 end
 
 function CrownPointerThing.onUpdate()
