@@ -47,18 +47,18 @@ function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
 end
 
 function CrownPointerThing.onUpdate()
-  leader = GetGroupLeaderUnitTag()
-  Px, Py, Ph = GetMapPlayerPosition("player")
-  Tx, Ty, Th = GetMapPlayerPosition(leader)
-  Heading = GetPlayerCameraHeading()
+  local leader = GetGroupLeaderUnitTag()
+  local Px, Py, Ph = GetMapPlayerPosition("player")
+  local Tx, Ty, Th = GetMapPlayerPosition(leader)
+  local Heading = GetPlayerCameraHeading()
 
-  DX = Px - Tx
-  DY = Py - Ty
-  D = math.sqrt((DX * DX) + (DY * DY))
+  local DX = Px - Tx
+  local DY = Py - Ty
+  local D = math.sqrt((DX * DX) + (DY * DY))
 
-  Angle = NormalizeAngle(Heading - math.atan2(DX, DY))
-  Linear = Angle / math.pi
-  AbsoluteLinear = math.abs(Linear)
+  local Angle = NormalizeAngle(Heading - math.atan2(DX, DY))
+  local Linear = Angle / math.pi
+  local AbsoluteLinear = math.abs(Linear)
   CrownPointerThingIndicatorLabel:SetText(
     string.format("DX: %.5f, Dy: %.5f, D%.5f, Heading: %.5f, Angle: %.5f, Linear: %.5f, ALinear: %.5f", DX, DY, D, Heading, Angle, Linear, AbsoluteLinear)
   )
