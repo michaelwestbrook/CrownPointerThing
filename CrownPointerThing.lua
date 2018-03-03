@@ -47,14 +47,12 @@ end
 -- Event Handlers
 function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
   d(CrownPointerThing.name)
-  CrownPointerThing:RestorePosition()
-  local MyTexture = WINDOW_MANAGER:CreateControl("LeftTexture", CrownPointerThingIndicator, CT_TEXTURE) -- Create a texture control
-  MyTexture:SetDimensions(200, 200) -- Set the size of the texture control
-  MyTexture:SetTexture("textures/elastic-reticle-arrows/left.dds")
-  MyTexture:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 50, 50)
-  MyTexture:SetHidden(false)
-  MyTexture:SetAlpha(0.9)
-  d(MyTexture)
+
+  local MyTexture = WINDOW_MANAGER:CreateControl("MyAddonExampleTexture", CrownPointerThingIndicator, CT_TEXTURE) -- Create a texture control
+  MyTexture:SetDimensions(80, 80) -- Set the size of the texture control
+  MyTexture:SetAnchor(TOPLEFT, CrownPointerThingIndicator, TOPLEFT, 350, -10) -- Set the position in relation to the topleft corner of the character screen
+  MyTexture:SetTexture("/esoui/art/charactercreate/charactercreate_altmericon_up.dds") -- Set the actual texture to use
+  d(CrownPointerThingIndicator:GetLeft())
 end
 
 function CrownPointerThing.onUpdate()
