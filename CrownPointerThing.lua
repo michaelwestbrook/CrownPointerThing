@@ -16,6 +16,8 @@ local function NormalizeAngle(c)
   return c
 end
 
+local FooTexture
+
 -- Next we create a function that will initialize our addon
 function CrownPointerThing:Initialize()
   self.savedVariables = ZO_SavedVars:New(string.format("%sSavedVariables", CrownPointerThing.name), 1, nil, {})
@@ -48,11 +50,11 @@ end
 function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
   d(CrownPointerThing.name)
 
-  local MyTexture = WINDOW_MANAGER:CreateControl("MyAddonExampleTexture", CrownPointerThingIndicator, CT_TEXTURE) -- Create a texture control
-  MyTexture:SetDimensions(80, 80) -- Set the size of the texture control
-  MyTexture:SetAnchor(TOPLEFT, CrownPointerThingIndicator, TOPLEFT, 350, -10) -- Set the position in relation to the topleft corner of the character screen
-  MyTexture:SetTexture("/esoui/art/charactercreate/charactercreate_altmericon_up.dds") -- Set the actual texture to use
-  d(CrownPointerThingIndicator:GetLeft())
+  FooTexture = WINDOW_MANAGER:CreateControl("MyAddonExampleTexture", CrownPointerThingIndicator, CT_TEXTURE) -- Create a texture control
+  FooTexture:SetDimensions(80, 80) -- Set the size of the texture control
+  FooTexture:SetAnchor(TOPLEFT, CrownPointerThingIndicator, TOPLEFT, 0, 0) -- Set the position in relation to the topleft corner of the character screen
+  FooTexture:SetTexture("/esoui/art/charactercreate/charactercreate_altmericon_up.dds") -- Set the actual texture to use
+  d(FooTexture:GetLeft())
 end
 
 function CrownPointerThing.onUpdate()
