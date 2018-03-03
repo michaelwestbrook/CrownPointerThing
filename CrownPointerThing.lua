@@ -62,7 +62,7 @@ function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
   CrownPointerThing.RestorePosition()
   LeftArrow = WINDOW_MANAGER:CreateControl("LeftArrow", CrownPointerThingIndicator, CT_TEXTURE)
   LeftArrow:SetDimensions(80, 80) -- Set the size of the texture control
-  LeftArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 15) 
+  LeftArrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 15)
   LeftArrow:SetTexture("esoui/art/miscellaneous/transform_arrow.dds") -- Set the actual texture to use
   LeftArrow:SetTextureRotation(-math.pi)
   LeftArrow:SetAlpha(1)
@@ -75,24 +75,13 @@ function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
   d(LeftArrow:GetColor())
 end
 
-function UpdateTexture(DistanceToTarget, AngleToTarget)
+function UpdateTexture(DistanceToTarget, AngleToTarget, AbsoluteLinear)
   if not LeftArrow or not RightArrow then
     return
   end
-  local R, G, B
-  if DistanceToTarget < .002 then
-    R = 0
-    G = 1
-    B = 0
-  elseif DistanceToTarget < .005 then
-    R = 1
-    G = 1
-    B = 0
-  elseif DistanceToTarget >= .005 then
-    R = 1
-    G = 0
-    B = 0
-  end
+  local R = 1
+  local G = 1 - AbsoluteLinear
+  local B = 1 - math.min(AbsoluteLinear, 0.05) * 20
 
   LeftArrow:ClearAnchors()
   RightArrow:ClearAnchors()
@@ -163,7 +152,7 @@ function CrownPointerThing.onUpdate()
     )
   )
 
-  UpdateTexture(D, Angle)
+  UpdateTexture(D, Angle, AbsoluteLinear)
   -- CrownPointerThingIndicatorTopDivider:SetHidden(false)
 end
 
