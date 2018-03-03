@@ -16,7 +16,7 @@ local function NormalizeAngle(c)
   return c
 end
 
-local FooTexture
+local LeftArrow, RightArrow
 
 -- Next we create a function that will initialize our addon
 function CrownPointerThing:Initialize()
@@ -39,24 +39,36 @@ function CrownPointerThing.OnIndicatorMoveStop()
 end
 
 function CrownPointerThing:RestorePosition()
-  local left = self.savedVariables.left
-  local top = self.savedVariables.top
+  local left
+  local top
+  if CrownPointerThing.savedVariables and CrownPointerThing.savedVariables.left and CrownPointerThing.savedVariables.right then
+    left = CrownPointerThing.savedVariables.left
+    top = CrownPointerThing.savedVariables.top
+  else
+    left = 0
+    right = 0
+  end 
 
   CrownPointerThingIndicator:ClearAnchors()
-  CrownPointerThingIndicator:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, left, top)
+  CrownPointerThingIndicator:SetAnchor(CENTER, GuiRoot, CENTER, left, top)
 end
 
 -- Event Handlers
 function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
   d(CrownPointerThing.name)
+  CrownPointerThing.RestorePosition()
+  LeftArrow = WINDOW_MANAGER:CreateControl("LeftArrow", CrownPointerThingIndicator, CT_TEXTURE) -- Create a texture control
+  LeftArrow:SetDimensions(80, 80) -- Set the size of the texture control
+  LeftArrow:SetAnchor(TOPLEFT, CrownPointerThingIndicator, TOPLEFT, 0, 0) -- Set the position in relation to the topleft corner of the character screen
+  LeftArrow:SetTexture("esoui/art/miscellaneous/transform_arrow.dds") -- Set the actual texture to use
+  LeftArrow:SetAlpha(1)
 
-  FooTexture = WINDOW_MANAGER:CreateControl("MyAddonExampleTexture", CrownPointerThingIndicator, CT_TEXTURE) -- Create a texture control
-  FooTexture:SetDimensions(150, 150) -- Set the size of the texture control
-  FooTexture:SetAnchor(TOPLEFT, CrownPointerThingIndicator, TOPLEFT, 0, 0) -- Set the position in relation to the topleft corner of the character screen
-  FooTexture:SetTexture("esoui/art/miscellaneous/transform_arrow.dds") -- Set the actual texture to use
-  FooTexture:SetAlpha(1)
-  UpdateTexture(FooTexture)
-  d(FooTexture:GetColor())
+  RightArrow = WINDOW_MANAGER:CreateControl("RightArrow", CrownPointerThingIndicator, CT_TEXTURE) -- Create a texture control
+  RightArrow:SetDimensions(80, 80) -- Set the size of the texture control
+  RightArrow:SetAnchor(TOPLEFT, CrownPointerThingIndicator, TOPLEFT, 0, 0) -- Set the position in relation to the topleft corner of the character screen
+  RightArrow:SetTexture("esoui/art/miscellaneous/transform_arrow.dds") -- Set the actual texture to use
+  RightArrow:SetAlpha(1)
+  d(LeftArrow:GetColor())
 end
 
 function UpdateTexture()
@@ -65,7 +77,6 @@ function UpdateTexture()
   -- left:SetDimensions(24)
   -- left:SetColor(state.Color)
   -- left:SetAlpha(state.Settings.MinAlpha)
-
   --   right:SetAnchor(LEFT, RIGHT, state.Distance, 0)
   --   right:SetDimensions(state.Size)
   --   right:SetColor(state.Color)
@@ -75,16 +86,13 @@ function UpdateTexture()
   --   left:SetDimensions(state.Size)
   --   left:SetColor(state.Color)
   --   left:SetAlpha(state.Alpha)
-
   --   right:SetAnchor(LEFT, RIGHT, state.Settings.MinDistance, 0)
   --   right:SetDimensions(state.Settings.MinSize)
   --   right:SetColor(state.Color)
   --   right:SetAlpha(state.Settings.MinAlpha)
   -- end
-
-
-  FooTexture:ClearAnchors()
-  FooTexture:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, -100, -100)
+  -- FooTexture:ClearAnchors()
+  -- FooTexture:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, -100, -100)
 end
 
 function CrownPointerThing.onUpdate()
@@ -100,11 +108,19 @@ function CrownPointerThing.onUpdate()
   local Angle = NormalizeAngle(Heading - math.atan2(DX, DY))
   local Linear = Angle / math.pi
   local AbsoluteLinear = math.abs(Linear)
-  -- MyTexture:SetAnchor(CENTER, CrownPointerThingIndicator, LEFT, 0, 0) -- Set the position in relation to the topleft corner of the character screen
-  -- MyTexture:SetTexture("art/fx/texture/dandelionfluff_512x4.dd")
-  -- CrownPointerThingIndicatorLabel:SetText(
-  --   string.format("DX: %.5f, Dy: %.5f, D%.5f, Heading: %.5f, Angle: %.5f, Linear: %.5f, ALinear: %.5f", DX, DY, D, Heading, Angle, Linear, AbsoluteLinear)
-  -- )
+
+  CrownPointerThingIndicatorLabel:SetText(
+    string.format(
+      "DX: %.5f, Dy: %.5f, D%.5f, Heading: %.5f, Angle: %.5f, Linear: %.5f, ALinear: %.5f",
+      DX,
+      DY,
+      D,
+      Heading,
+      Angle,
+      Linear,
+      AbsoluteLinear
+    )
+  )
   -- CrownPointerThingIndicatorTopDivider:SetHidden(false)
 end
 
