@@ -14,7 +14,7 @@ end
 function ArrowReticle.UpdateTexture(DistanceToTarget, DX, DY, AngleToTarget, Linear, AbsoluteLinear)
   if not Arrow then
     return
-  elseif IsUnitSoloOrGroupLeader("player") then
+  elseif IsUnitSoloOrGroupLeader("player") or ZO_ReticleContainer:IsHidden() then
     Arrow:SetAlpha(0)
     return
   end
