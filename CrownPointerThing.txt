@@ -3,5 +3,7 @@
 ## SavedVariables: CrownPointerThingSavedVariables
 ## Description: Points to crown
 
+reticles/arrow.lua
+
 CrownPointerThing.lua
 CrownPointerThing.xml
